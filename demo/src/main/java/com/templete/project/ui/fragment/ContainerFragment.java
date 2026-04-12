@@ -293,8 +293,7 @@ public class ContainerFragment extends BaseFragment<ContainerFragmentBinding> {
     private ContainerFragment getContainerFragment(int position) {
         if (currNavs != null && position < currNavs.size()) {
             NavBean navBean = currNavs.get(position);
-            ContainerFragment fragment = ContainerFragment.newInstance(navBean, userViewPager2);
-            return fragment;
+            return ContainerFragment.newInstance(navBean, userViewPager2);
         }
         return null;
     }

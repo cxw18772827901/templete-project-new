@@ -29,7 +29,7 @@ ext {
             greendao_version          : '3.3.0',
             route_version             : '1.5.2',
             immersionbar_version      : '3.2.1',
-            leakcanary_version        : '2.8',
+            leakcanary_version        : '2.13',
             viewpager2_version        : '1.0.0',
             qiniu_version             : '8.4.0',
             androidx_core_version     : "1.6.0",
