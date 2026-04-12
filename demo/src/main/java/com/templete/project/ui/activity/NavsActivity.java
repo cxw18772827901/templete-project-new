@@ -121,8 +121,8 @@ public class NavsActivity extends BaseActivity<NavsActivityBinding> {
             }
         }
 
-        containerFragment = ContainerFragment.newInstance(navs, false);
-        // containerFragment = ContainerFragment.newInstance(navs, true);
+        // containerFragment = ContainerFragment.newInstance(navs, false);
+        containerFragment = ContainerFragment.newInstance(navs, true);
         getSupportFragmentManager().beginTransaction().replace(R.id.fl_container, containerFragment).commitNow();
     }
 

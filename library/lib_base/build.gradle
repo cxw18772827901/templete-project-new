@@ -102,7 +102,7 @@ dependencies {
     implementation "com.geyifeng.immersionbar:immersionbar:${config.dependencies.immersionbar_version}"
     //leakcanary
     //noinspection GradleDependency
-    //debugApi "com.squareup.leakcanary:leakcanary-android:${config.dependencies.leakcanary_version}"
+    debugApi "com.squareup.leakcanary:leakcanary-android:${config.dependencies.leakcanary_version}"
     annotationProcessor "com.github.bumptech.glide:compiler:${config.dependencies.glide_version}"
     //3.0版本
     // PictureSelector 基础 (必须)

@@ -78,55 +78,57 @@ class ViewPager2Container @JvmOverloads constructor(
 
     private fun handleHorizontal(dx: Float, dy: Float) {
         val vp = viewPager2 ?: return
-        val absDx = kotlin.math.abs(dx)
-        val absDy = kotlin.math.abs(dy)
+        // val absDx = kotlin.math.abs(dx)
+        // val absDy = kotlin.math.abs(dy)
 
-        if (absDx > absDy) {
-            val current = vp.currentItem
-            val last = (vp.adapter?.itemCount ?: 0) - 1
+        // if (absDx > absDy) {
+        val current = vp.currentItem
+        val last = (vp.adapter?.itemCount ?: 0) - 1
 
-            when {
-                // 👉 左边界 & 往右滑 → 给父
-                current == 0 && dx > 0 -> {
-                    parent.requestDisallowInterceptTouchEvent(false)
-                }
-                // 👉 右边界 & 往左滑 → 给父
-                current == last && dx < 0 -> {
-                    parent.requestDisallowInterceptTouchEvent(false)
-                }
-                // 👉 中间 → 自己吃
-                else -> {
-                    parent.requestDisallowInterceptTouchEvent(true)
-                }
+        when {
+            // 👉 左边界 & 往右滑 → 给父
+            current == 0 && dx > 0 -> {
+                parent.requestDisallowInterceptTouchEvent(false)
             }
-        } else {
-            parent.requestDisallowInterceptTouchEvent(false)
+            // 👉 右边界 & 往左滑 → 给父
+            current == last && dx < 0 -> {
+                parent.requestDisallowInterceptTouchEvent(false)
+            }
+            // 👉 中间 → 自己吃
+            else -> {
+                parent.requestDisallowInterceptTouchEvent(true)
+            }
         }
+        // } else {
+        //     parent.requestDisallowInterceptTouchEvent(false)
+        // }
     }
 
     private fun handleVertical(dx: Float, dy: Float) {
         val vp = viewPager2 ?: return
-        val absDx = kotlin.math.abs(dx)
-        val absDy = kotlin.math.abs(dy)
+        // val absDx = kotlin.math.abs(dx)
+        // val absDy = kotlin.math.abs(dy)
 
-        if (absDy > absDx) {
-            val current = vp.currentItem
-            val last = (vp.adapter?.itemCount ?: 0) - 1
+        // if (absDy > absDx) {
+        val current = vp.currentItem
+        val last = (vp.adapter?.itemCount ?: 0) - 1
 
-            when {
-                current == 0 && dy > 0 -> {
-                    parent.requestDisallowInterceptTouchEvent(false)
-                }
-                current == last && dy < 0 -> {
-                    parent.requestDisallowInterceptTouchEvent(false)
-                }
-                else -> {
-                    parent.requestDisallowInterceptTouchEvent(true)
-                }
+        when {
+            current == 0 && dy > 0 -> {
+                parent.requestDisallowInterceptTouchEvent(false)
             }
-        } else {
-            parent.requestDisallowInterceptTouchEvent(false)
+
+            current == last && dy < 0 -> {
+                parent.requestDisallowInterceptTouchEvent(false)
+            }
+
+            else -> {
+                parent.requestDisallowInterceptTouchEvent(true)
+            }
         }
+        // } else {
+        //     parent.requestDisallowInterceptTouchEvent(false)
+        // }
     }
 
     fun setDisallowParentInterceptDownEvent(disallow: Boolean) {
