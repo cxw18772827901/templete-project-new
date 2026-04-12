@@ -41,32 +41,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!--<androidx.viewpager.widget.ViewPager
+            <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fadingEdge="none"
                 android:overScrollMode="never" />
 
-            &lt;!&ndash;<androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager2"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager21"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fadingEdge="none"
-                android:overScrollMode="never" />&ndash;&gt;
+                android:overScrollMode="never" />
 
-            <com.templete.project.ui.widget.NestedScrollableHost
+            <com.templete.project.ui.widget.ViewPager2Container
                 android:id="@+id/host"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewPager2"
+                    android:id="@+id/viewPager22"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:fadingEdge="none"
                     android:overScrollMode="never" />
-            </com.templete.project.ui.widget.NestedScrollableHost>-->
+            </com.templete.project.ui.widget.ViewPager2Container>
         </FrameLayout>
     </LinearLayout>
 

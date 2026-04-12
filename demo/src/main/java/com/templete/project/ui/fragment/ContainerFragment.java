@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,9 +22,6 @@ import com.templete.project.BuildConfig;
 import com.templete.project.R;
 import com.templete.project.bean.NavBean;
 import com.templete.project.databinding.ContainerFragmentBinding;
-import com.templete.project.databinding.LayoutViewpager2Binding;
-import com.templete.project.databinding.LayoutViewpager2WrapBinding;
-import com.templete.project.databinding.LayoutViewpagerBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,20 +117,22 @@ public class ContainerFragment extends BaseFragment<ContainerFragmentBinding> {
     }
 
     private void addViewPager(boolean isInner) {
-        mViewBinding.viewpagerContainer.removeAllViews();
         if (!userViewPager2) {
-            LayoutViewpagerBinding binding = LayoutViewpagerBinding.inflate(getLayoutInflater());
-            viewPager = binding.getRoot();
-            mViewBinding.viewpagerContainer.addView(binding.getRoot(), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            mViewBinding.viewPager.setVisibility(View.VISIBLE);
+            mViewBinding.viewPager21.setVisibility(View.GONE);
+            mViewBinding.host.setVisibility(View.GONE);
+            viewPager = mViewBinding.viewPager;
         } else {
             if (!isInner) {
-                LayoutViewpager2Binding binding = LayoutViewpager2Binding.inflate(getLayoutInflater());
-                viewPager2 = binding.getRoot();
-                mViewBinding.viewpagerContainer.addView(binding.getRoot(), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                mViewBinding.viewPager.setVisibility(View.GONE);
+                mViewBinding.viewPager21.setVisibility(View.VISIBLE);
+                mViewBinding.host.setVisibility(View.GONE);
+                viewPager2 = mViewBinding.viewPager21;
             } else {
-                LayoutViewpager2WrapBinding binding = LayoutViewpager2WrapBinding.inflate(getLayoutInflater());
-                viewPager2 = binding.viewPager2;
-                mViewBinding.viewpagerContainer.addView(binding.getRoot(), FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                mViewBinding.viewPager.setVisibility(View.GONE);
+                mViewBinding.viewPager21.setVisibility(View.GONE);
+                mViewBinding.host.setVisibility(View.VISIBLE);
+                viewPager2 = mViewBinding.viewPager22;
             }
         }
     }
