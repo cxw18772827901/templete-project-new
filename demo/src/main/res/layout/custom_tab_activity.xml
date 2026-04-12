@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x150"
         android:background="@color/common_accent_color"
-        app:xTabDisplayNum="4"
+        app:xTabDisplayNum="0"
         app:xTabGravity="fill"
         app:xTabMaxWidth="0dp"
         app:xTabMinWidth="0dp"

@@ -5,13 +5,15 @@ import android.content.Context;
 
 import com.lib.base.config.App;
 import com.templete.project.config.DemoAppConfig;
+import com.templete.project.util.ScreenAdapter;
 
 import androidx.multidex.MultiDex;
 
 /**
  * ProjectName  TempleteProject
  * PackageName  com.module.a
- * @author      xwchen
+ *
+ * @author xwchen
  * Date         2021/10/11.
  */
 public class DemoMainApp extends App {
@@ -41,6 +43,9 @@ public class DemoMainApp extends App {
                     ((App) o).initModule(context);
                 }
             }
+            // 如果不用百分比布局这一套，可以使用修改density的方案（二选一不要同时使用）
+            // 参考375设计稿，直接使用测量值的dp，sp
+            // ScreenAdapter.init(this, 375f);
         } catch (Exception e) {
             e.printStackTrace();
         }

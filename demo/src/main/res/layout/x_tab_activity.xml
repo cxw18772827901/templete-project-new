@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/x150"
         android:background="@color/common_accent_color"
-        app:xTabDisplayNum="4"
+        app:xTabDisplayNum="0"
         app:xTabGravity="fill"
         app:xTabIndicatorBottomPadding="@dimen/x20"
         app:xTabIndicatorColor="@color/white"
