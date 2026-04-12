@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/x100"
+            android:layout_marginStart="@dimen/x15"
+            android:layout_marginEnd="@dimen/x15"
+            android:background="@color/cl_no_color"
+            android:fadingEdge="none"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:tabBackground="@color/cl_no_color"
+            app:tabGravity="fill"
+            app:tabIndicator="@drawable/tab_indicator_round"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="@dimen/x4"
+            app:tabMaxWidth="0dp"
+            app:tabMinWidth="0dp"
+            app:tabMode="scrollable"
+            app:tabPaddingEnd="@dimen/x15"
+            app:tabPaddingStart="@dimen/x15"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="#2979FF"
+            app:tabTextAppearance="@style/TabText"
+            app:tabTextColor="#80000000" />
+
+        <FrameLayout
+            android:id="@+id/viewpager_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!--<androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fadingEdge="none"
+                android:overScrollMode="never" />
+
+            &lt;!&ndash;<androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fadingEdge="none"
+                android:overScrollMode="never" />&ndash;&gt;
+
+            <com.templete.project.ui.widget.NestedScrollableHost
+                android:id="@+id/host"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/viewPager2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fadingEdge="none"
+                    android:overScrollMode="never" />
+            </com.templete.project.ui.widget.NestedScrollableHost>-->
+        </FrameLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</FrameLayout>

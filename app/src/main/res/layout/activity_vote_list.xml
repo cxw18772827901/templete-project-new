@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.example.app.VoteResultView
+        android:id="@+id/vote_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="10dp"
+        app:borderColorVoted="#F30118"
+        app:itemSpacing="10dp"
+        app:roundCornerRadius="8dp"
+        app:voteSubtitle="本次投票400人参与 参与单选/3个选项"
+        app:voteSubtitleColor="#8D8D8D"
+        app:voteSubtitleMarginTop="12dp"
+        app:voteSubtitleSize="12dp"
+        app:voteTextColor="#191919"
+        app:voteTextColorVoted="#F30118"
+        app:voteTextSize="14sp"
+        app:voteTitle="本次投票结果,本次投票结果,本次投票结果,本次投票结果,本次投票结果,本次投票结果"
+        app:voteTitleColor="#191919"
+        app:voteTitleMarginBottom="8dp"
+        app:voteTitleSize="14sp" />
+    <!--app:voteBgColor="#FF0000"/>-->
+
+</LinearLayout>

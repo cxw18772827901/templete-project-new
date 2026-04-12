@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eee"
+    tools:context=".VotePKActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<com.example.app.VoteSplitView
+        android:id="@+id/voteView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_margin="10dp"
+        app:checkDrawable="@drawable/ic_check"
+        app:cornerRadius="6dp"
+        app:dividerSlopeWidth="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:leftColor="#FF6B6B"
+        app:leftText="张伯伦"
+        app:rightColor="#4E8CFF"
+        app:rightText="乔丹"
+        app:vsDrawable="@drawable/ic_vs" />-->
+
+    <!--<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.hjq.shape.view.imageView.RoundImageView
+                android:id="@+id/ivLeft"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="2dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_left"
+                app:corner_bottom_left_radius="5dp"
+                app:corner_top_left_radius="5dp"
+                app:layout_constraintDimensionRatio="240:310"
+                app:layout_constraintEnd_toStartOf="@id/ivRight"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.hjq.shape.view.imageView.RoundImageView
+                android:id="@+id/ivRight"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="2dp"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_right"
+                app:corner_bottom_right_radius="5dp"
+                app:corner_top_right_radius="5dp"
+                app:layout_constraintDimensionRatio="240:310"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintStart_toEndOf="@id/ivLeft"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.example.app.VoteSplitView
+            android:id="@+id/voteView"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            app:checkDrawable="@drawable/ic_check"
+            app:cornerRadius="6dp"
+            app:dividerSlopeWidth="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftColor="#FF6B6B"
+            app:leftText="张伯伦"
+            app:rightColor="#4E8CFF"
+            app:rightText="乔丹"
+            app:vsDrawable="@drawable/ic_vs" />
+
+        <TextView
+            android:id="@+id/tvDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="400人参与    参与单选/2个选项"
+            android:textColor="@color/cl_999999"
+            android:textSize="16sp" />
+    </LinearLayout>-->
+
+    <com.example.app.VotePKView
+        android:id="@+id/pkView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

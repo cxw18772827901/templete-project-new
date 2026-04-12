@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.lib.base">
+
+    <application>
+        <activity
+            android:name=".ui.activity.MvpActivity"
+            android:screenOrientation="portrait" />
+        <!-- 播放视频（自适应方向） -->
+        <activity
+            android:name=".ui.activity.VideoPlayActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/FullScreenTheme" />
+
+        <!-- 播放视频（竖屏方向） -->
+        <activity
+            android:name=".ui.activity.VideoPlayActivity$Portrait"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme" />
+
+        <!-- 播放视频（横屏方向） -->
+        <activity
+            android:name=".ui.activity.VideoPlayActivity$Landscape"
+            android:launchMode="singleTop"
+            android:screenOrientation="landscape"
+            android:theme="@style/FullScreenTheme" />
+    </application>
+</manifest>

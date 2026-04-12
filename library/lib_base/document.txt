@@ -1,0 +1,259 @@
+一.通用base库:
+1.RxJava(RxBinding)+Retrofit+Okhttp;
+2.终极全尺寸屏幕布局适配方案,默认1080*1920,涵盖480*320到3200*1440绝大部分机型;
+3.组件化+模块化(阿里路由框架ARoute);
+4.MVP+MVVM开发模式;
+5.沉浸式UI:BaseActivity+BaseFragment;
+6.常用Util库:log+toast+glide+thread+sp等;
+7.最强dialog(轮子哥出品).
+
+二.子依赖库
+1.lib_db:greendao数据库;
+2.lib_gson:json容错解析框架,解析数据时不会crash,同时会打印解析报错字段和回台返回值类型;
+3.lib_permission:适配安卓10以上权限;
+4.lib_shapeView:强大的shape框架,不用再写任何xmlshape文件,0学习成本.
+5.banner.
+
+           <com.youth.banner.Banner
+                    android:id="@+id/banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x550"
+                    android:layout_marginTop="@dimen/x20"
+                    app:banner_indicator_height="@dimen/x15"
+                    app:banner_indicator_marginBottom="@dimen/x25"
+                    app:banner_indicator_normal_color="@color/cl_999"
+                    app:banner_indicator_normal_width="@dimen/x23"
+                    app:banner_indicator_selected_color="@android:color/white" />
+
+      mViewBinding.banner.setAdapter(ImageAdapter(autoRollItems) {
+            try {
+                val resBean = list[it]
+                ListVideoActivity.startActivity(requireActivity(), resBean.title ?: "", videosBean(resBean.albumId.toString() + ".json")!!.data!!.vlist!!)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        })
+        mViewBinding.banner.indicator = CircleIndicator(requireContext())
+        //添加画廊效果
+        //添加画廊效果
+        val resources = requireContext().resources
+        mViewBinding.banner.setBannerGalleryEffect(resources.getDimension(R.dimen.x20).toInt(), resources.getDimension(R.dimen.x15).toInt(), 0.8f)
+三.相册
+.setSelectorUIStyle(); 设置相册主题
+.setLanguage(); 设置相册语言
+.setImageEngine(); 设置相册图片加载引擎
+.setCompressEngine(); 设置相册压缩引擎
+.setCropEngine(); 设置相册裁剪引擎
+.setSandboxFileEngine(); 设置相册沙盒目录拷贝引擎
+.setOriginalFileEngine(); 设置相册图片原图处理引擎
+.setExtendLoaderEngine(); 设置相册数据源加载引擎
+.setCameraInterceptListener(); 拦截相机事件，实现自定义相机
+.setEditMediaInterceptListener(); 拦截资源编辑事件，实现自定义编辑
+.setPermissionsInterceptListener(); 拦截相册权限处理事件，实现自定义权限
+.setSelectLimitTipsListener();拦截选择限制事件，可实现自定义提示
+.isCameraForegroundService(); 拍照时是否开启一个前台服务
+.setRequestedOrientation(); 设置屏幕旋转方向
+.setSelectedData(); 相册已选数据
+.setRecyclerAnimationMode(); 相册列表动画效果
+.setImageSpanCount(); 相册列表每行显示个数
+.isDisplayCamera(); 是否显示相机入口
+.isPageStrategy(); 是否开启分页模式
+.selectionMode(); 单选或是多选
+.setMaxSelectNum(); 图片最大选择数量
+.setMinSelectNum(); 图片最小选择数量
+.setMaxVideoSelectNum(); 视频最大选择数量
+.setMinVideoSelectNum(); 视频最小选择数量
+.setRecordVideoMaxSecond(); 视频录制最大时长
+.setRecordVideoMinSecond(); 视频录制最小时长
+.setFilterVideoMaxSecond(); 过滤视频最大时长
+.setFilterVideoMinSecond(); 过滤视频最小时长
+.setSelectMaxDurationSecond(); 选择最大时长视频或音频
+.setSelectMinDurationSecond(); 选择最小时长视频或音频
+.setVideoQuality(); 系统相机录制视频质量
+.isQuickCapture(); 使用系统摄像机录制后，是否支持使用系统播放器立即播放视频
+.isPreviewAudio(); 是否支持音频预览
+.isPreviewImage(); 是否支持预览图片
+.isPreviewVideo(); 是否支持预览视频
+.isPreviewFullScreenMode(); 预览点击全屏效果
+.isEmptyResultReturn(); 支持未选择返回
+.isWithSelectVideoImage(); 是否支持视频图片同选
+.isZoomAnim(); 选择缩放效果
+.isOpenClickSound(); 是否开启点击音效
+.isCameraAroundState(); 是否开启前置摄像头；系统相机 只支持部分机型
+.isCameraRotateImage(); 拍照是否纠正旋转图片
+.isGif(); 是否显示gif文件
+.isWebp(); 是否显示webp文件
+.isBmp(); 是否显示bmp文件
+.isHidePreviewDownload(); 是否隐藏预览下载功能
+.isAutoScalePreviewImage(); 预览图片自动放大充满屏幕
+.setOfAllCameraType(); isWithSelectVideoImage模式下相机优先使用权
+.isMaxSelectEnabledMask(); 达到最大选择数是否开启禁选蒙层
+.isSyncCover(); isPageModel模式下是否强制同步封面，默认false
+.isAutomaticTitleRecyclerTop(); 点击相册标题是否快速回到第一项
+.isFastSlidingSelect(); 快速滑动选择
+.isDirectReturnSingle(); 单选时是否立即返回
+.setCameraImageFormat(); 拍照图片输出格式
+.setCameraImageFormatForQ(); 拍照图片输出格式，Android Q以上
+.setCameraVideoFormat(); 拍照视频输出格式
+.setCameraVideoFormatForQ(); 拍照视频输出格式，Android Q以上
+.setOutputCameraDir(); 使用相机输出路径
+.setOutputAudioDir();使用录音输出路径
+.setOutputCameraImageFileName(); 图片输出文件名
+.setOutputCameraVideoFileName(); 视频输出文件名
+.setOutputAudioFileName(); 录音输出文件名
+.setQuerySandboxDir(); 查询指定目录下的资源
+.isOnlyObtainSandboxDir(); 是否只查询指定目录下的资源
+.setFilterMaxFileSize(); 过滤最大文件
+.setFilterMinFileSize(); 过滤最小文件
+.setSelectMaxFileSize(); 最大可选文件大小
+.setSelectMinFileSize(); 最小可选文件大小
+.setQueryOnlyMimeType(); 查询指定文件类型
+.setSkipCropMimeType(); 跳过不需要裁剪的类型
+
+四.ImmersionBar的使用
+ ImmersionBar.with(this)
+             .transparentStatusBar()  //透明状态栏，不写默认透明色
+             .transparentNavigationBar()  //透明导航栏，不写默认黑色(设置此方法，fullScreen()方法自动为true)
+             .transparentBar()             //透明状态栏和导航栏，不写默认状态栏为透明色，导航栏为黑色（设置此方法，fullScreen()方法自动为true）
+             .statusBarColor(R.color.colorPrimary)     //状态栏颜色，不写默认透明色
+             .navigationBarColor(R.color.colorPrimary) //导航栏颜色，不写默认黑色
+             .barColor(R.color.colorPrimary)  //同时自定义状态栏和导航栏颜色，不写默认状态栏为透明色，导航栏为黑色
+             .statusBarAlpha(0.3f)  //状态栏透明度，不写默认0.0f
+             .navigationBarAlpha(0.4f)  //导航栏透明度，不写默认0.0F
+             .barAlpha(0.3f)  //状态栏和导航栏透明度，不写默认0.0f
+             .statusBarDarkFont(true)   //状态栏字体是深色，不写默认为亮色
+             .navigationBarDarkIcon(true) //导航栏图标是深色，不写默认为亮色
+             .autoDarkModeEnable(true) //自动状态栏字体和导航栏图标变色，必须指定状态栏颜色和导航栏颜色才可以自动变色哦
+             .autoStatusBarDarkModeEnable(true,0.2f) //自动状态栏字体变色，必须指定状态栏颜色才可以自动变色哦
+             .autoNavigationBarDarkModeEnable(true,0.2f) //自动导航栏图标变色，必须指定导航栏颜色才可以自动变色哦
+             .flymeOSStatusBarFontColor(R.color.btn3)  //修改flyme OS状态栏字体颜色
+             .fullScreen(true)      //有导航栏的情况下，activity全屏显示，也就是activity最下面被导航栏覆盖，不写默认非全屏
+             .hideBar(BarHide.FLAG_HIDE_BAR)  //隐藏状态栏或导航栏或两者，不写默认不隐藏
+             .addViewSupportTransformColor(toolbar)  //设置支持view变色，可以添加多个view，不指定颜色，默认和状态栏同色，还有两个重载方法
+             .titleBar(view)    //解决状态栏和布局重叠问题，任选其一
+             .titleBarMarginTop(view)     //解决状态栏和布局重叠问题，任选其一
+             .statusBarView(view)  //解决状态栏和布局重叠问题，任选其一
+             .fitsSystemWindows(true)    //解决状态栏和布局重叠问题，任选其一，默认为false，当为true时一定要指定statusBarColor()，不然状态栏为透明色，还有一些重载方法
+             .supportActionBar(true) //支持ActionBar使用
+             .statusBarColorTransform(R.color.orange)  //状态栏变色后的颜色
+             .navigationBarColorTransform(R.color.orange) //导航栏变色后的颜色
+             .barColorTransform(R.color.orange)  //状态栏和导航栏变色后的颜色
+             .removeSupportView(toolbar)  //移除指定view支持
+             .removeSupportAllView() //移除全部view支持
+             .navigationBarEnable(true)   //是否可以修改导航栏颜色，默认为true
+             .navigationBarWithKitkatEnable(true)  //是否可以修改安卓4.4和emui3.x手机导航栏颜色，默认为true
+             .navigationBarWithEMUI3Enable(true) //是否可以修改emui3.x手机导航栏颜色，默认为true
+             .keyboardEnable(true)  //解决软键盘与底部输入框冲突问题，默认为false，还有一个重载方法，可以指定软键盘mode
+             .keyboardMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)  //单独指定软键盘模式
+             .setOnKeyboardListener(new OnKeyboardListener() {    //软键盘监听回调，keyboardEnable为true才会回调此方法
+                   @Override
+                   public void onKeyboardChange(boolean isPopup, int keyboardHeight) {
+                       LogUtils.e(isPopup);  //isPopup为true，软键盘弹出，为false，软键盘关闭
+                   }
+              })
+             .setOnNavigationBarListener(onNavigationBarListener) //导航栏显示隐藏监听，目前只支持华为和小米手机
+             .setOnBarListener(OnBarListener) //第一次调用和横竖屏切换都会触发，可以用来做刘海屏遮挡布局控件的问题
+             .addTag("tag")  //给以上设置的参数打标记
+             .getTag("tag")  //根据tag获得沉浸式参数
+             .reset()  //重置所以沉浸式参数
+             .init();  //必须调用方可应用以上所配置的参数
+
+五.加密
+概要
+    加密类型	    摘要	                            相关方法
+    简单加密	    换一种编码格式     	            Base64Util
+    单向加密	    只能加密，不能解密	                MD5Util、SHAUtil
+    对称加密	    使用相同的秘钥加密和解密	        AESUtil、DESUtil
+    非对称加密	分公钥和私钥，一个加密，另一个解密	RSAUtil
+
+5.1.Base64util
+    System.out.println("base64");
+    // base64 字符串加密解密测试
+    assertEquals("R2NzU2xvb3DkuK3mloc=\n", Base64Util.base64EncodeStr("GcsSloop中文"));
+    assertEquals("GcsSloop中文", Base64Util.base64DecodedStr("R2NzU2xvb3DkuK3mloc=\n"));
+
+5.2.MD5Util
+    System.out.println("md5");
+    // MD5 字符串加密测试
+    assertEquals("", MD5Util.md5(""));
+    assertEquals("386d3ff3fa6def1ec307428e885e03a1", MD5Util.md5("GcsSloop中文"));
+    assertEquals("fd01aa74bb73bbdb094bae28a558c6d1", MD5Util.md5("GcsSloop中文", "salt"));
+
+    // MD5 多次加密测试
+    assertEquals("GcsSloop中文", MD5Util.md5("GcsSloop中文", 0));
+    assertEquals("386d3ff3fa6def1ec307428e885e03a1", MD5Util.md5("GcsSloop中文", 1));
+    assertEquals("2d9fdd834c5c852fa2f946b670f3731f", MD5Util.md5("GcsSloop中文", 2));
+    assertEquals("211dd7a16d5a01df756278cea9a38d53", MD5Util.md5("GcsSloop中文", 3));
+
+    // MD5 文件md5测试
+    File file = new File("./Encrypt/Test/demo" +
+                                 ".flv");
+    assertEquals("a4e592e6160e0102e7ecc4ab6117b700", MD5Util.md5(file));
+
+5.3.SHAUtil
+    System.out.println("sha");
+    // des 字符串加密解密测试
+    String source = "GcsSloop中文";
+    assertEquals("b9dd1d754ee3ac16dc584b8fd4655ca581a0637eab8ff25128b0a522372e7233",SHAUtil.sha(source, null));
+    assertEquals("34d44835ce4cc4d7ecf66428e49273bf02f748d7213be24c767c5f4f",SHAUtil.sha(source, SHAUtil.SHA224));
+    assertEquals("b9dd1d754ee3ac16dc584b8fd4655ca581a0637eab8ff25128b0a522372e7233",SHAUtil.sha(source, SHAUtil.SHA256));
+    assertEquals("2e3c27201c21b06b01289ebef09c9c36e752ca6a5b6425ca7b2501b4baaed29876954ca710b7e75c80b7b542df28fde6",
+                 SHAUtil.sha(source, SHAUtil.SHA384));
+    assertEquals("bc3f55fcb03272ee166d7804ccba348ffba05ddce08bf3fab719fa2c97c8dc71993fc9524e21b8fee9491aafc0b309ebca797163bca45ece7c3dd73dae3698ee",
+                 SHAUtil.sha(source, SHAUtil.SHA512));
+
+
+5.3.AESUtil
+    System.out.println("aes");
+    // aes 字符串加密解密测试
+    String source = "GcsSloop中文";
+    String key = "1234567890123456";
+    System.out.println("原数据 = " + source);
+    String aesStr = AESUtil.aes(source, key, Cipher.ENCRYPT_MODE);
+    System.out.println("加密后 = " + aesStr);
+    String result = AESUtil.aes(aesStr, key, Cipher.DECRYPT_MODE);
+    System.out.println("解密后 = " + result);
+    assertEquals(source, result);
+
+5.4.DESUtil
+    System.out.println("des");
+    // des 字符串加密解密测试
+    String source = "GcsSloop中文";
+    String key = "1234567890123456";
+    System.out.println("原数据 = " + source);
+    String aesStr = DESUtil.des(source, key, Cipher.ENCRYPT_MODE);
+    System.out.println("加密后 = " + aesStr);
+    String result = DESUtil.des(aesStr, key, Cipher.DECRYPT_MODE);
+    System.out.println("解密后 = " + result);
+    assertEquals(source, result);
+
+5.5.RSAUtil
+    System.out.println("rsa");
+    // des 字符串加密解密测试
+    byte[] data = "GcsSloop中文".getBytes();
+
+    // 密钥与数字签名获取
+    Map<String, Object> keyMap = RSAUtil.getKeyPair();
+    String publicKey = RSAUtil.getKey(keyMap, true);
+    System.out.println("rsa获取公钥： " + publicKey);
+    String privateKey = RSAUtil.getKey(keyMap, false);
+    System.out.println("rsa获取私钥： " + privateKey);
+
+    // 公钥加密私钥解密
+    byte[] rsaPublic =
+            RSAUtil.rsa(data, publicKey, RSAUtil.RSA_PUBLIC_ENCRYPT);
+    System.out.println("rsa公钥加密： " + new String(rsaPublic));
+    System.out.println("rsa私钥解密： " + new String(
+            RSAUtil.rsa(rsaPublic, privateKey, RSAUtil.RSA_PRIVATE_DECRYPT)));
+
+    // 私钥加密公钥解密
+    byte[] rsaPrivate =
+            RSAUtil.rsa(data, privateKey, RSAUtil.RSA_PRIVATE_ENCRYPT);
+    System.out.println("rsa私钥加密： " + new String(rsaPrivate));
+    System.out.println("rsa公钥解密： " + new String(
+            RSAUtil.rsa(rsaPrivate, publicKey, RSAUtil.RSA_PUBLIC_DECRYPT)));
+
+    // 私钥签名及公钥签名校验
+    String signStr = RSAUtil.sign(rsaPrivate, privateKey);
+    System.out.println("rsa数字签名生成： " + signStr);
+    System.out.println("rsa数字签名校验： " + RSAUtil.verify(rsaPrivate, publicKey, signStr));

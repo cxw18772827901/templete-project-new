@@ -1,0 +1,39 @@
+<resources>
+    <declare-styleable name="VoteSplitView">
+        <!--        <attr name="leftText" format="string" />-->
+        <!--        <attr name="rightText" format="string" />-->
+        <!--        <attr name="textColor" format="color" />-->
+        <!--        <attr name="checkDrawable" format="reference" />-->
+        <!--        <attr name="vsDrawable" format="reference" />-->
+        <attr name="leftColor" format="color" />
+        <attr name="leftColorEnd" format="color" />
+        <attr name="rightColor" format="color" />
+        <attr name="rightColorEnd" format="color" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="dividerSlopeWidth" format="dimension" />
+        <attr name="baseHeight" format="dimension" />
+        <attr name="heightIncrease" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="VoteResultView">
+        <attr name="itemHeight" format="dimension" />
+        <attr name="itemSpacing" format="dimension" />
+        <attr name="roundCornerRadius" format="dimension" />
+        <attr name="voteBgColor" format="color" />
+        <attr name="voteTextSize" format="dimension" />
+        <attr name="borderColor" format="color" />
+        <attr name="borderColorVoted" format="color" />
+        <attr name="progressColor" format="color" />
+        <attr name="progressColorVoted" format="color" />
+        <attr name="voteTextColor" format="color" />
+        <attr name="voteTextColorVoted" format="color" />
+        <attr name="voteTitle" format="string" />
+        <attr name="voteTitleSize" format="dimension" />
+        <attr name="voteTitleColor" format="color" />
+        <attr name="voteTitleMarginBottom" format="dimension" />
+        <attr name="voteSubtitle" format="string" />
+        <attr name="voteSubtitleSize" format="dimension" />
+        <attr name="voteSubtitleColor" format="color" />
+        <attr name="voteSubtitleMarginTop" format="dimension" />
+    </declare-styleable>
+</resources>

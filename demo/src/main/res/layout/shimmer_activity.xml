@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.templete.project.ui.widget.ShimmerView
+            android:id="@+id/shimmer_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y1300"
+            android:visibility="visible" />
+
+        <com.skydoves.androidveil.VeilLayout
+            android:id="@+id/sl1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/x30"
+            android:layout_marginTop="@dimen/x100"
+            app:veilLayout_baseAlpha="1.0"
+            app:veilLayout_baseColor="@color/cl_eee"
+            app:veilLayout_defaultChildVisible="true"
+            app:veilLayout_dropOff="0.1"
+            app:veilLayout_highlightAlpha="1.0"
+            app:veilLayout_highlightColor="@color/white"
+            app:veilLayout_radius="@dimen/x15"
+            app:veilLayout_shimmerEnable="true"
+            app:veilLayout_veiled="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/x300" />
+
+            </LinearLayout>
+        </com.skydoves.androidveil.VeilLayout>
+    </LinearLayout>
+</ScrollView>

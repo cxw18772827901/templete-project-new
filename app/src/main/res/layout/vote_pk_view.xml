@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_pk"
+    android:orientation="vertical"
+    android:padding="8dp">
+    <!--app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">-->
+    <!--android:layout_margin="10dp"-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.hjq.shape.view.imageView.RoundImageView
+            android:id="@+id/ivLeft"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="1.5dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_left"
+            app:corner_bottom_left_radius="8dp"
+            app:corner_top_left_radius="8dp"
+            app:layout_constraintDimensionRatio="240:310"
+            app:layout_constraintEnd_toStartOf="@id/ivRight"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.hjq.shape.view.imageView.RoundImageView
+            android:id="@+id/ivRight"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="1.5dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_right"
+            app:corner_bottom_right_radius="8dp"
+            app:corner_top_right_radius="8dp"
+            app:layout_constraintDimensionRatio="240:310"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/ivLeft"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--这里需求是这对小卡片12dp,所以是动态的-->
+    <View
+        android:id="@+id/view_holder"
+        android:layout_width="match_parent"
+        android:layout_height="12dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--        android:layout_marginTop="8dp">-->
+
+        <com.example.app.VoteSplitView
+            android:id="@+id/voteView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:baseHeight="69dp"
+            app:cornerRadius="8dp"
+            app:dividerSlopeWidth="10dp"
+            app:heightIncrease="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:leftColor="#F53446"
+            app:leftColorEnd="#FF7582"
+            app:rightColor="#5982FF"
+            app:rightColorEnd="#0D71EB" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/vs"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_arrow_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintBottom_toBottomOf="@id/tv_left"
+            app:layout_constraintEnd_toStartOf="@id/iv_arrow_right"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_left" />
+
+        <ImageView
+            android:id="@+id/iv_arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:src="@drawable/ic_arrow_right"
+            app:layout_constraintBottom_toBottomOf="@id/tv_left"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_arrow_left"
+            app:layout_constraintTop_toTopOf="@id/tv_left" />
+
+        <TextView
+            android:id="@+id/tv_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:includeFontPadding="false"
+            android:maxLength="12"
+            android:maxLines="1"
+            android:text="乔丹"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/fl_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <FrameLayout
+            android:id="@+id/fl_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fl_right"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_left">
+
+            <TextView
+                android:id="@+id/tv_support_left"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_gravity="start|center_vertical"
+                android:background="@drawable/bg_support"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:text="支持"
+                android:textColor="#C93A3A"
+                android:textSize="10sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_left"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_count_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:text="1(100%)"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <com.example.app.ProgressBar
+                    android:id="@+id/progress_left"
+                    android:layout_width="107dp"
+                    android:layout_height="4.5dp"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:includeFontPadding="false"
+            android:maxLength="12"
+            android:maxLines="1"
+            android:text="乔丹"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/fl_right"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed" />
+
+        <FrameLayout
+            android:id="@+id/fl_right"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/fl_left"
+            app:layout_constraintTop_toBottomOf="@id/tv_right">
+
+            <TextView
+                android:id="@+id/tv_support_right"
+                android:layout_width="60dp"
+                android:layout_height="20dp"
+                android:layout_gravity="end|center_vertical"
+                android:background="@drawable/bg_support"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:maxLines="1"
+                android:text="支持"
+                android:textColor="#4E8CFF"
+                android:textSize="10sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_right"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tv_count_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:maxLines="1"
+                    android:text="1(100%)"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <com.example.app.ProgressBar
+                    android:id="@+id/progress_right"
+                    android:layout_width="107dp"
+                    android:layout_height="4dp"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvSubtitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="400人参与    参与单选/2个选项"
+        android:textColor="#8D8D8D"
+        android:textSize="12sp" />
+</LinearLayout>

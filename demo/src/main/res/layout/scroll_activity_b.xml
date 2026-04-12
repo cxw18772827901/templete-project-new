@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.scwang.smart.refresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refresh_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:srlEnableLoadMore="true">
+    <!--android:descendantFocusability="blocksDescendants"
+    tools:visibility="visible">-->
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="56dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <LinearLayout
+                    android:id="@+id/ll"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:orientation="vertical"
+                    tools:ignore="UselessParent">
+
+                    <!--app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap"-->
+
+                    <!--scroll 类似添加为scrollview header-->
+
+                    <!--scroll|enterAlways 向上时都滚动,向下时header先出来,后滚动scrollview-->
+
+                    <!--scroll|enterAlways|enterAlwaysCollapsed 向上时都滚动,向下时header先出来最小高度,后滚动scrollview,最后滚动出整个header-->
+
+                    <!--scroll|exitUntilCollapsed 向上时先一起滚动,然后置顶最小高度不动,向下时scrollview滚动完,header才会跟随出来-->
+
+                    <!--scroll|snap 吸附效果,要么显示真个header 要么隐藏-->
+
+                    <!--scroll|exitUntilCollapsed|snap 上面两种集合,header最小高度上面吸附效果-->
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/holo_green_dark"
+                        android:gravity="center"
+                        android:text="top view layout"
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/x50"
+                        tools:ignore="HardcodedText" />
+
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="600dp"
+                                android:layout_height="56dp"
+                                android:background="@android:color/holo_red_dark"
+                                android:gravity="center"
+                                android:text="middle view"
+                                android:textColor="@android:color/white"
+                                android:textSize="@dimen/x50"
+                                tools:ignore="HardcodedText" />
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </LinearLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</com.scwang.smart.refresh.layout.SmartRefreshLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.templete.project.mvvm.DemoViewModel" />
+
+        <variable
+            name="boo"
+            type="Boolean" />
+
+        <variable
+            name="ints"
+            type="Integer" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--        android:background="@{vm.dark?@color/app_color_white:@color/app_color_red}"-->
+        <!--        android:background="@{ints == 1?@color/app_color_white:@color/app_color_red}"-->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</layout>
