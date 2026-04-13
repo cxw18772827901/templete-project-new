@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.hjq.gson.factory.GsonFactory;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -170,6 +171,27 @@ public class GsonUtil {
                 return null;
             }
             return getInstance().fromJson(content, TypeToken.getParameterized(Map.class, key, value).getType());
+        } catch (JsonSyntaxException e) {
+            return null;
+        }
+    }
+
+    /**
+     * 如：
+     * 1、Type type1 = new TypeToken<List<User>>(){}.getType();
+     * 2、Type type2 = new TypeToken<Map<String,User>>(){}.getType();
+     *
+     * @param content
+     * @param type
+     * @param <T>
+     * @return
+     */
+    public static <T> T fromJson(String content, Type type) {
+        try {
+            if (TextUtils.isEmpty(content) || type == null) {
+                return null;
+            }
+            return getInstance().fromJson(content, type);
         } catch (JsonSyntaxException e) {
             return null;
         }

@@ -9,6 +9,7 @@ import com.lib.base.util.encrypt.base.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -37,8 +38,8 @@ public class DoubleCacheUtil {
                 if (value == null) {
                     return 1;
                 }
-                String json = GsonUtil.toJson(value);
-                return !TextUtils.isEmpty(json) ? json.length() : 1;
+                String json = value.content /*GsonUtil.toJson(value)*/;
+                return !TextUtils.isEmpty(json) ? json.getBytes().length : 1;
             }
         };
     }
@@ -165,149 +166,38 @@ public class DoubleCacheUtil {
         }
     }
 
-    /**
-     * 获取未超时List数据
-     *
-     * @param key
-     * @param <T>
-     * @return
-     */
-    @Nullable
-    public static <T> List<T> getList(String key, Class<T> clazz) {
+    public static <T> T get(String key, Type type) {
         try {
-            if (TextUtils.isEmpty(key) || clazz == null) {
-                return null;
-            }
+            if (TextUtils.isEmpty(key) || type == null) return null;
+
             CacheBean cacheBean = mMemoryCache.get(key);
-            if (cacheBean != null) {
-                if (cacheBean.cacheTimeSeconds > 0) {
-                    long outTime = cacheBean.timeWhenCache + cacheBean.cacheTimeSeconds * 1000;
-                    long timeNow = System.currentTimeMillis();
-                    if (outTime < timeNow) {
-                        mMemoryCache.remove(key);
-                        SPUtil.put(key, "");
-                        return null;
-                    } else {
-                        return getList(cacheBean);
-                    }
-                } else {
-                    return getList(cacheBean);
-                }
-            } else {
+
+            if (cacheBean == null) {
                 String string = SPUtil.getString(key);
-                if (TextUtils.isEmpty(string)) {
+                if (TextUtils.isEmpty(string)) return null;
+
+                cacheBean = GsonUtil.fromJsonObj(string, CacheBean.class);
+                if (cacheBean == null) return null;
+            }
+
+            // 过期判断统一
+            if (cacheBean.cacheTimeSeconds > 0) {
+                long outTime = cacheBean.timeWhenCache + cacheBean.cacheTimeSeconds * 1000;
+                if (System.currentTimeMillis() > outTime) {
+                    mMemoryCache.remove(key);
+                    SPUtil.put(key, "");
                     return null;
-                }
-                CacheBean bean = GsonUtil.fromJsonObj(string, CacheBean.class);
-                if (bean == null) {
-                    return null;
-                }
-                if (bean.cacheTimeSeconds > 0) {
-                    long outTime = bean.timeWhenCache + bean.cacheTimeSeconds * 1000;
-                    long timeNow = System.currentTimeMillis();
-                    if (outTime < timeNow) {
-                        mMemoryCache.remove(key);
-                        SPUtil.put(key, "");
-                        return null;
-                    } else {
-                        return getList(key, clazz, bean);
-                    }
-                } else {
-                    return getList(key, clazz, bean);
                 }
             }
+
+            Object result = GsonUtil.fromJson(cacheBean.content, type);
+
+            cacheBean.data = result;
+            mMemoryCache.put(key, cacheBean);
+
+            return (T) result;
+
         } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private static <T> List<T> getList(String key, Class<T> clazz, @NonNull CacheBean bean) {
-        List<T> t = GsonUtil.fromJsonList(bean.content, clazz);
-        bean.data = t;
-        mMemoryCache.put(key, bean);
-        return t;
-    }
-
-    @Nullable
-    private static <T> List<T> getList(@NonNull CacheBean cacheBean) {
-        Object data = cacheBean.data;
-        if (data instanceof List) {
-            return (List<T>) data;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * 获取未超时Map数据
-     *
-     * @param key
-     * @param <T>
-     * @param <S>
-     * @return
-     */
-    @Nullable
-    public static <T, S> Map<T, S> getMap(String key, Class<T> classKey, Class<S> classValue) {
-        try {
-            if (TextUtils.isEmpty(key) || classKey == null || classValue == null) {
-                return null;
-            }
-            CacheBean cacheBean = mMemoryCache.get(key);
-            if (cacheBean != null) {
-                if (cacheBean.cacheTimeSeconds > 0) {
-                    long outTime = cacheBean.timeWhenCache + cacheBean.cacheTimeSeconds * 1000;
-                    long timeNow = System.currentTimeMillis();
-                    if (outTime < timeNow) {
-                        mMemoryCache.remove(key);
-                        SPUtil.put(key, "");
-                        return null;
-                    } else {
-                        return getMap(cacheBean);
-                    }
-                } else {
-                    return getMap(cacheBean);
-                }
-            } else {
-                String string = SPUtil.getString(key);
-                if (TextUtils.isEmpty(string)) {
-                    return null;
-                }
-                CacheBean bean = GsonUtil.fromJsonObj(string, CacheBean.class);
-                if (bean == null) {
-                    return null;
-                }
-                if (bean.cacheTimeSeconds > 0) {
-                    long outTime = bean.timeWhenCache + bean.cacheTimeSeconds * 1000;
-                    long timeNow = System.currentTimeMillis();
-                    if (outTime < timeNow) {
-                        mMemoryCache.remove(key);
-                        SPUtil.put(key, "");
-                        return null;
-                    } else {
-                        return getMap(key, classKey, classValue, bean);
-                    }
-                } else {
-                    return getMap(key, classKey, classValue, bean);
-                }
-            }
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    private static <T, S> Map<T, S> getMap(String key, Class<T> classKey, Class<S> classValue, @NonNull CacheBean bean) {
-        Map<T, S> map = GsonUtil.fromJsonMap(bean.content, classKey, classValue);
-        bean.data = map;
-        mMemoryCache.put(key, bean);
-        return map;
-    }
-
-    @Nullable
-    private static <T, S> Map<T, S> getMap(@NonNull CacheBean cacheBean) {
-        Object data = cacheBean.data;
-        if (data instanceof Map) {
-            return (Map<T, S>) data;
-        } else {
             return null;
         }
     }

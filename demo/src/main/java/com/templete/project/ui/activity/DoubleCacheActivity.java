@@ -1,11 +1,13 @@
 package com.templete.project.ui.activity;
 
+import com.google.gson.reflect.TypeToken;
 import com.lib.base.bean.User;
 import com.lib.base.ui.activity.BaseActivity;
 import com.lib.base.util.DoubleCacheUtil;
 import com.lib.base.util.GlobalThreadPoolUtil;
 import com.templete.project.databinding.DoubleCacheActivityBinding;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,10 +80,12 @@ public class DoubleCacheActivity extends BaseActivity<DoubleCacheActivityBinding
         User user = DoubleCacheUtil.get("user", User.class);
         logD("DoubleCacheUtil", "user=" + user);
 
-        List<User> users = DoubleCacheUtil.getList("users", User.class);
+        Type type1 = new TypeToken<List<User>>(){}.getType();
+        List<User> users = DoubleCacheUtil.get("users", type1);
         logD("DoubleCacheUtil", "users=" + users);
 
-        Map<String, User> map = DoubleCacheUtil.getMap("map", String.class, User.class);
+        Type type2 = new TypeToken<Map<String,User>>(){}.getType();
+        Map<String, User> map = DoubleCacheUtil.get("map", type2);
         logD("DoubleCacheUtil", "map=" + map);
     }
 
