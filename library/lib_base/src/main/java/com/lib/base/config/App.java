@@ -27,6 +27,7 @@ import com.lib.base.R;
 import com.lib.base.glide.GlideApp;
 import com.lib.base.mvvm.GlobalViewModel;
 import com.lib.base.rxjava.RxUtils;
+import com.lib.base.ui.OverlayTextDrawableUtil;
 import com.lib.base.ui.action.LogAction;
 import com.lib.base.ui.widget.BlackToastStyle;
 import com.lib.base.util.ContextUtil;
@@ -125,6 +126,10 @@ public abstract class App extends Application implements ViewModelStoreOwner, Lo
         setRoute();
         //注册网络状态变化监听
         setNetWorkListener();
+        //debug
+        if (BuildConfig.DEBUG) {
+            OverlayTextDrawableUtil.debug(this);
+        }
     }
 
     private void saveCity() {
