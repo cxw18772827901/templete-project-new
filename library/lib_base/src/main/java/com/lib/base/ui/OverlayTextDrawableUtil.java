@@ -41,7 +41,7 @@ public class OverlayTextDrawableUtil {
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
 
             @Override
-            public synchronized void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
+            public void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
                 if (!ENABLE || !(activity instanceof AppCompatActivity)) return;
                 // fragment 添加name
                 ((AppCompatActivity) activity)
@@ -98,7 +98,7 @@ public class OverlayTextDrawableUtil {
         });
     }
 
-    private synchronized static int getFragmentDepth(@NonNull Fragment f) {
+    private static int getFragmentDepth(@NonNull Fragment f) {
         int depth = 0;
         Fragment parent = f.getParentFragment();
         while (parent != null) {
