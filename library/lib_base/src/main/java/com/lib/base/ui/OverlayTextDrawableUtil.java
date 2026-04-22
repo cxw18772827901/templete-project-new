@@ -31,16 +31,18 @@ import com.lib.base.util.ScreenUtil;
 
 public class OverlayTextDrawableUtil {
 
-    private static final boolean ENABLE = false;
+    private static boolean ENABLE = false;
+
+    public static void setENABLE(boolean ENABLE) {
+        OverlayTextDrawableUtil.ENABLE = ENABLE;
+    }
 
     public static void debug(Application app) {
-        if (!ENABLE) return;
-
         app.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
 
             @Override
             public synchronized void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
-                if (!(activity instanceof AppCompatActivity)) return;
+                if (!ENABLE || !(activity instanceof AppCompatActivity)) return;
                 // fragment 添加name
                 ((AppCompatActivity) activity)
                         .getSupportFragmentManager()
