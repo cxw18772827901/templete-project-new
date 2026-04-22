@@ -40,9 +40,7 @@ public class OverlayTextDrawableUtil {
 
             @Override
             public synchronized void onActivityCreated(@NonNull Activity activity, Bundle savedInstanceState) {
-                if (!ENABLE || !(activity instanceof AppCompatActivity)) {
-                    return;
-                }
+                if (!(activity instanceof AppCompatActivity)) return;
                 // fragment 添加name
                 ((AppCompatActivity) activity)
                         .getSupportFragmentManager()
