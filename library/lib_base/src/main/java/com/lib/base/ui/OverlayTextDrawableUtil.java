@@ -139,10 +139,10 @@ public class OverlayTextDrawableUtil {
             padding = dp(context, 8);
 
             bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            bgPaint.setColor(0x33000000);
+            bgPaint.setColor(0x99000000);
 
             textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            textPaint.setColor(Color.BLACK);
+            textPaint.setColor(Color.WHITE);
             textPaint.setTextSize(dp(context, 12));
             textPaint.setTypeface(Typeface.DEFAULT_BOLD);
         }

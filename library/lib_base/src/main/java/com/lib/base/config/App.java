@@ -128,6 +128,7 @@ public abstract class App extends Application implements ViewModelStoreOwner, Lo
         setNetWorkListener();
         //debug
         if (BuildConfig.DEBUG) {
+            OverlayTextDrawableUtil.setENABLE(true);
             OverlayTextDrawableUtil.debug(this);
         }
     }
