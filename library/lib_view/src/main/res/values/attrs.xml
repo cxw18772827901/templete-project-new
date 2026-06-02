@@ -1129,4 +1129,14 @@
         <attr format="color" name="inner_border_color"/>
         <attr format="color" name="mask_color"/>
     </declare-styleable>
+
+    <declare-styleable name="RoundLayout">
+        <!-- 统一圆角 -->
+        <attr name="rl_radius" format="dimension" />
+        <!-- 单独圆角 -->
+        <attr name="rl_topLeft" format="dimension" />
+        <attr name="rl_topRight" format="dimension" />
+        <attr name="rl_bottomLeft" format="dimension" />
+        <attr name="rl_bottomRight" format="dimension" />
+    </declare-styleable>
 </resources>
