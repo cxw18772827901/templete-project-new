@@ -2,8 +2,8 @@
 <resources>
 
     <style name="AppTheme.BG" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/ic_bg_10_1</item>
-        <!--<item name="android:windowBackground">@color/transparent</item>-->
+<!--        <item name="android:windowBackground">@drawable/ic_bg_10_1</item>-->
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
 
     <style name="bottom_host_tv">
