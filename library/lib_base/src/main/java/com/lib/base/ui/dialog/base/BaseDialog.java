@@ -22,6 +22,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.FloatRange;
+import androidx.annotation.IdRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.annotation.StyleRes;
+import androidx.appcompat.app.AppCompatDialog;
+import androidx.core.content.ContextCompat;
+
 import com.lib.base.R;
 import com.lib.base.ui.action.ActivityAction;
 import com.lib.base.ui.action.AnimAction;
@@ -34,34 +46,19 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.DrawableRes;
-import androidx.annotation.FloatRange;
-import androidx.annotation.IdRes;
-import androidx.annotation.LayoutRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.annotation.StyleRes;
-import androidx.appcompat.app.AppCompatDialog;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LifecycleRegistry;
-
 /**
  * @author: Android 轮子哥
  * github : https://github.com/getActivity/AndroidProject
  * time   : 2018/11/24
  * desc   : Dialog 技术基类
  */
-public class BaseDialog extends AppCompatDialog implements LifecycleOwner,
+public class BaseDialog extends AppCompatDialog implements /*LifecycleOwner,*/
         ActivityAction, ResourcesAction, HandlerAction, DialogClickAction, AnimAction, KeyboardAction,
         DialogInterface.OnShowListener, DialogInterface.OnCancelListener, DialogInterface.OnDismissListener {
 
     public static final int SHOW_TIME = 600;
     private final ListenersWrapper<BaseDialog> mListeners = new ListenersWrapper<>(this);
-    private final LifecycleRegistry mLifecycle = new LifecycleRegistry(this);
+    // private final LifecycleRegistry mLifecycle = new LifecycleRegistry(this);
 
     @Nullable
     private List<OnShowListener> mShowListeners;
@@ -223,11 +220,11 @@ public class BaseDialog extends AppCompatDialog implements LifecycleOwner,
         super.dismiss();
     }
 
-    @NonNull
+    /*@NonNull
     @Override
     public Lifecycle getLifecycle() {
         return mLifecycle;
-    }
+    }*/
 
     /**
      * 设置一个显示监听器
@@ -394,7 +391,7 @@ public class BaseDialog extends AppCompatDialog implements LifecycleOwner,
      */
     @Override
     public void onShow(DialogInterface dialog) {
-        mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+//        mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
 
         if (mShowListeners == null) {
             return;
@@ -424,7 +421,7 @@ public class BaseDialog extends AppCompatDialog implements LifecycleOwner,
      */
     @Override
     public void onDismiss(DialogInterface dialog) {
-        mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+//        mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
 
         if (mDismissListeners == null) {
             return;
@@ -438,19 +435,19 @@ public class BaseDialog extends AppCompatDialog implements LifecycleOwner,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
+//        mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
+//        mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_START);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
+//        mLifecycle.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
     }
 
     @Override
