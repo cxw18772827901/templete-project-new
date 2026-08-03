@@ -4,7 +4,7 @@ plugins {
 def config = rootProject.ext
 android {
     compileSdkVersion config.android.compileSdkVersion
-    buildToolsVersion config.android.buildToolsVersion
+//    buildToolsVersion config.android.buildToolsVersion
 
     defaultConfig {
         minSdkVersion config.android.minSdkVersion
