@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="srl_tag" type="id" />
+    <item name="overlay_dialog_tips_tag" type="id" />
+    <item name="overlay_dialog_class_name" type="id" />
 </resources>

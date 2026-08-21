@@ -76,11 +76,11 @@ public class SelectorActivity extends BaseActivity<SelectorActivityBinding> {
 
     @Override
     public void initData() {
-        ArrayList<LocalMedia> list = new ArrayList<>();
-        LocalMedia media = new LocalMedia();
+//        ArrayList<LocalMedia> list = new ArrayList<>();
+//        LocalMedia media = new LocalMedia();
 //        media.setPath("http://1258757031.vod2.myqcloud.com/83e310f0vodsh1258757031/e019e5075285890812975115033/QRQy2RHMwwUA.mp4");
-        media.setPath("https://omma-cdn.zhmobi.com/admin/20210521/31mR1621572617824.jpg");
-        list.add(media);
-        GlobalThreadPoolUtil.postOnUiThreadDelay(() -> MediaPickerUtil.preview(SelectorActivity.this, 0, list), 2000);
+//        media.setPath("https://omma-cdn.zhmobi.com/admin/20210521/31mR1621572617824.jpg");
+//        list.add(media);
+//        GlobalThreadPoolUtil.postOnUiThreadDelay(() -> MediaPickerUtil.preview(SelectorActivity.this, 0, list), 2000);
     }
 }

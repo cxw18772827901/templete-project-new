@@ -947,6 +947,18 @@ public class BaseDialog extends AppCompatDialog implements /*LifecycleOwner,*/
                     window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
                 }
                 window.setAttributes(params);
+                /*
+                 * 调试悬浮层专用（OverlayTextDrawableUtil）：
+                 * Builder 模式里 createDialog() 实际 new 的是 BaseDialog，实例类名永远是 BaseDialog。
+                 * 业务类名在外层（如 WaitDialog.Builder → WaitDialog），写入 decor tag，
+                 * 供窗口监听侧优先展示为 WaitDialog，而不是 BaseDialog。
+                 * 非嵌套 Builder 则退回 Builder 自身 simpleName。
+                 */
+                Class<?> overlayClass = getClass().getEnclosingClass();
+                if (overlayClass == null) {
+                    overlayClass = getClass();
+                }
+                window.getDecorView().setTag(R.id.overlay_dialog_class_name, overlayClass.getSimpleName());
             }
 
             for (int i = 0; mClickArray != null && i < mClickArray.size(); i++) {
