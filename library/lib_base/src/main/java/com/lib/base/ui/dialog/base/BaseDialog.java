@@ -548,6 +548,13 @@ public class BaseDialog extends AppCompatDialog implements /*LifecycleOwner,*/
          */
         private SparseArray<OnClickListener<?>> mClickArray;
 
+        /**
+         * 与 Activity 绑定的生命周期；一个 Builder 只创建一次，
+         * 避免多次 {@link #create()} 往同一份 listener 列表里叠多个 DialogLifecycle。
+         */
+        @Nullable
+        private DialogLifecycle mDialogLifecycle;
+
         public Builder(Activity activity) {
             this((Context) activity);
         }
@@ -968,9 +975,9 @@ public class BaseDialog extends AppCompatDialog implements /*LifecycleOwner,*/
                 }
             }
 
-            // 将 Dialog 的生命周期和 Activity 绑定在一起
-            if (mActivity != null) {
-                DialogLifecycle.with(mActivity, mDialog);
+            // 将 Dialog 的生命周期和 Activity 绑定在一起（每个 Builder 只绑一次）
+            if (mActivity != null && mDialogLifecycle == null) {
+                mDialogLifecycle = DialogLifecycle.with(mActivity, mDialog);
             }
 
             if (mCreateListener != null) {
@@ -1109,8 +1116,9 @@ public class BaseDialog extends AppCompatDialog implements /*LifecycleOwner,*/
             OnShowListener,
             OnDismissListener {
 
-        private static void with(Activity activity, BaseDialog dialog) {
-            new DialogLifecycle(activity, dialog);
+        @NonNull
+        private static DialogLifecycle with(Activity activity, BaseDialog dialog) {
+            return new DialogLifecycle(activity, dialog);
         }
 
         private BaseDialog mDialog;

@@ -1,7 +1,5 @@
 package com.lib.base.ui.action;
 
-import android.view.ViewGroup;
-
 import androidx.viewbinding.ViewBinding;
 
 /**
@@ -23,16 +21,16 @@ public abstract class ViewBindingActivity<T extends ViewBinding> extends RxjavaA
      */
     protected abstract T viewBinding();
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            if (mViewBinding != null) {
-                ((ViewGroup) mViewBinding.getRoot().getParent()).removeAllViews();
-            }
-            // mViewBinding = null;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        try {
+//            if (mViewBinding != null) {
+//                ((ViewGroup) mViewBinding.getRoot().getParent()).removeAllViews();
+//            }
+//             mViewBinding = null;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

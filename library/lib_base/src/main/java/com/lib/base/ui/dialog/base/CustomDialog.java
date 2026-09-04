@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
+import androidx.annotation.NonNull;
+
 import com.lib.base.R;
 import com.lib.base.databinding.CommonDialogLayoutBinding;
 import com.lib.base.util.inject.MyException;
-
-import androidx.annotation.NonNull;
 
 @SuppressLint("NonConstantResourceId")
 public class CustomDialog extends Dialog implements View.OnClickListener {
@@ -48,6 +48,8 @@ public class CustomDialog extends Dialog implements View.OnClickListener {
         binding.tvDesc.setText(desc);
         if (!TextUtils.isEmpty(okMsg)) binding.tvOk.setText(okMsg);
         if (!TextUtils.isEmpty(cancelMsg)) binding.tvCancel.setText(cancelMsg);
+        binding.tvOk.setOnClickListener(this);
+        binding.tvCancel.setOnClickListener(this);
     }
 
     public interface OnCommitListener {

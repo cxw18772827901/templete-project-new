@@ -38,7 +38,7 @@
                 app:rcvContentPadding="20dp"
                 app:rcvCornerRadius="0dp"
                 app:rcvShadowColor="#ff0000"
-                app:rcvElevation="4dp"
+                app:rcvElevation="2dp"
                 app:rcvTopLeftRadius="12dp"
                 app:rcvTopRightRadius="12dp" />
 

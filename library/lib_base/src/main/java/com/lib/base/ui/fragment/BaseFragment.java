@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewbinding.ViewBinding;
+
 import com.lib.base.config.App;
 import com.lib.base.mvvm.GlobalViewModel;
 import com.lib.base.ui.action.BaseAction;
@@ -18,10 +22,6 @@ import com.lib.base.ui.action.LogAction;
 import com.lib.base.ui.action.ToastAction;
 import com.lib.base.ui.action.ViewBindingFragment;
 import com.lib.base.ui.activity.BaseActivity;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.viewbinding.ViewBinding;
 
 
 /**
@@ -108,9 +108,9 @@ public abstract class BaseFragment<T extends ViewBinding> extends ViewBindingFra
         return ((App) requireActivity().getApplication()).getGlobalViewModel();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
 //        bundle = null;
-    }
+//    }
 }
