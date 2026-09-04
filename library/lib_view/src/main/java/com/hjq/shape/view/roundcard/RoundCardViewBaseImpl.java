@@ -95,6 +95,7 @@ class RoundCardViewBaseImpl implements RoundCardViewImpl {
 
     @Override
     public void setShadowColor(RoundCardViewDelegate cardView, @Nullable ColorStateList color) {
+        // API < 21 无系统 outline 阴影色，也不做软件彩色阴影（避免与 Api21 策略不一致）
     }
 
     @Override
@@ -110,6 +111,7 @@ class RoundCardViewBaseImpl implements RoundCardViewImpl {
 
     @Override
     public void setCornerRadii(RoundCardViewDelegate cardView, float[] radii) {
+        // pre-21 的 RoundRectDrawableWithShadow 只支持统一圆角，取最大半径退化
         float max = 0f;
         if (radii != null) {
             for (int i = 0; i < radii.length; i += 2) {

@@ -21,12 +21,11 @@ import androidx.annotation.Px;
 import com.hjq.shape.R;
 
 /**
- * Independent CardView-like container with:
- * <ul>
- *   <li>uniform or per-corner radii</li>
- *   <li>optional custom shadow color (API 28+ native / API 21–27 software)</li>
- * </ul>
- * Does not replace {@link androidx.cardview.widget.CardView}; use either side by side.
+ * CardView 风格容器（平行实现，非 {@link androidx.cardview.widget.CardView} 子类）。
+ * <p>
+ * <b>扩展</b>：四角圆角、{@code rcvShadowColor}。<br>
+ * <b>阴影</b>：API 28+ 系统 elevation；API 28 以下默认软阴影（Bitmap 缓存，View 保持硬件加速，可进列表）。<br>
+ * <b>注意</b>：{@code android:padding} 无效，请用 {@code rcvContentPadding*}。
  */
 public class RoundCardView extends FrameLayout {
 
@@ -123,21 +122,26 @@ public class RoundCardView extends FrameLayout {
 
     @Override
     public void setPadding(int left, int top, int right, int bottom) {
-        // NO OP
+        // 与 CardView 相同：禁止外部 padding，避免破坏阴影预留边距；请用 setContentPadding / rcvContentPadding*
     }
 
     @Override
     public void setPaddingRelative(int start, int top, int end, int bottom) {
-        // NO OP
+        // NO OP — 同上
     }
 
     @Override
     protected void dispatchDraw(Canvas canvas) {
         Drawable background = getBackground();
-        if (background instanceof RoundRectDrawable
-                && ((RoundRectDrawable) background).usesCompatShadow()) {
+        if (!(background instanceof RoundRectDrawable)) {
+            super.dispatchDraw(canvas);
+            return;
+        }
+        RoundRectDrawable rd = (RoundRectDrawable) background;
+        // 四角不等时 clip，避免子 View 画出圆角
+        if (!rd.isUniformRadius()) {
             int save = canvas.save();
-            canvas.clipPath(((RoundRectDrawable) background).getClipPath());
+            canvas.clipPath(rd.getClipPath());
             super.dispatchDraw(canvas);
             canvas.restoreToCount(save);
         } else {
@@ -247,6 +251,7 @@ public class RoundCardView extends FrameLayout {
     }
 
     public void setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
+        // API 21+ 四角独立；API < 21 见 RoundCardViewBaseImpl（退化为 max 统一圆角）
         IMPL.setCornerRadii(mCardViewDelegate, new float[]{
                 topLeft, topLeft, topRight, topRight,
                 bottomRight, bottomRight, bottomLeft, bottomLeft
@@ -313,6 +318,9 @@ public class RoundCardView extends FrameLayout {
         return IMPL.getElevation(mCardViewDelegate);
     }
 
+    /**
+     * 自定义阴影色。API 28+ 改 outline；更低版本作用在软阴影 Bitmap 上。
+     */
     public void setCardShadowColor(@Nullable ColorStateList color) {
         mShadowColor = color;
         IMPL.setShadowColor(mCardViewDelegate, color);
@@ -371,6 +379,11 @@ public class RoundCardView extends FrameLayout {
         @Override
         public boolean getPreventCornerOverlap() {
             return RoundCardView.this.getPreventCornerOverlap();
+        }
+
+        @Override
+        public ColorStateList getShadowColor() {
+            return RoundCardView.this.getCardShadowColor();
         }
 
         @Override

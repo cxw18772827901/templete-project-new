@@ -8,6 +8,12 @@
     <dimen name="rcv_default_elevation">2dp</dimen>
     <dimen name="rcv_default_radius">2dp</dimen>
 
+    <!--
+      RoundCardView：
+      - android:padding 无效，用 rcvContentPadding*
+      - API 28 以下默认软阴影（Bitmap 缓存，View 仍硬件加速，可进列表）
+      - rcvShadowColor：各版本均支持（28+ outline；更低走软阴影色）
+    -->
     <declare-styleable name="RoundCardView">
         <attr name="rcvBackgroundColor" format="color"/>
         <attr name="rcvCornerRadius" format="dimension"/>

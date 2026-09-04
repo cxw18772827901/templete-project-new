@@ -27,16 +27,18 @@
             tools:layoutAnimation="@null">
 
 
+            <!-- android:padding 无效，内容边距请用 rcvContentPadding* -->
             <com.hjq.shape.view.roundcard.RoundCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="12dp"
                 android:layout_marginVertical="10dp"
                 android:minHeight="60dp"
-                android:padding="20dp"
+                app:rcvBackgroundColor="@android:color/white"
+                app:rcvContentPadding="20dp"
                 app:rcvCornerRadius="0dp"
-                app:rcvElevation="2dp"
                 app:rcvShadowColor="#ff0000"
+                app:rcvElevation="4dp"
                 app:rcvTopLeftRadius="12dp"
                 app:rcvTopRightRadius="12dp" />
 

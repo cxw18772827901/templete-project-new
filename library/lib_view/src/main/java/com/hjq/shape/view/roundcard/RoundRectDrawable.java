@@ -1,6 +1,7 @@
 package com.hjq.shape.view.roundcard;
 
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -20,11 +21,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+/**
+ * API 21+ 卡片背景。
+ * <p>
+ * API 28+：阴影由 View elevation 负责。<br>
+ * API 21–27：软阴影先画进 Bitmap 缓存，再 blit 到硬件 Canvas ——
+ * <b>不需要</b>给整个 View 开 {@code LAYER_TYPE_SOFTWARE}，列表可流畅滚动。
+ */
 @RequiresApi(21)
 class RoundRectDrawable extends Drawable {
     private static final float SHADOW_MULTIPLIER = 1.5f;
-    /** Soften opaque colors to ~35% alpha for glow. */
-    private static final int OPAQUE_SHADOW_ALPHA = 0x59;
+    private static final int SOFT_OPAQUE_SHADOW_ALPHA = 0x2A;
+    private static final float TRANSLUCENT_ALPHA_SCALE = 0.45f;
 
     private float mRadius;
     private final float[] mRadii = new float[8];
@@ -34,20 +42,25 @@ class RoundRectDrawable extends Drawable {
     private final RectF mBoundsF;
     private final Rect mBoundsI;
     private final Path mPath;
+    private final Path mShadowPath;
     private float mPadding;
     private boolean mInsetForPadding = false;
     private boolean mInsetForRadius = true;
     private boolean mUniformRadius = true;
     private float mShadowSize;
-    private float mBlurRadius = -1f;
+    private float mCachedBlur = -1f;
     @Nullable
-    private BlurMaskFilter mBlurMaskFilter;
+    private BlurMaskFilter mOuterBlur;
     @Nullable
     private ColorStateList mCompatShadowColor;
     private ColorStateList mBackground;
     private PorterDuffColorFilter mTintFilter;
     private ColorStateList mTint;
     private PorterDuff.Mode mTintMode = PorterDuff.Mode.SRC_IN;
+
+    @Nullable
+    private Bitmap mShadowBitmap;
+    private int mShadowBitmapKey;
 
     RoundRectDrawable(ColorStateList backgroundColor, float radius) {
         mRadius = Math.max(0f, radius);
@@ -59,6 +72,7 @@ class RoundRectDrawable extends Drawable {
         mBoundsF = new RectF();
         mBoundsI = new Rect();
         mPath = new Path();
+        mShadowPath = new Path();
     }
 
     private void setBackground(ColorStateList color) {
@@ -75,6 +89,7 @@ class RoundRectDrawable extends Drawable {
         mInsetForPadding = insetForPadding;
         mInsetForRadius = insetForRadius;
         updateBounds(null);
+        invalidateShadowCache();
         invalidateSelf();
     }
 
@@ -90,8 +105,7 @@ class RoundRectDrawable extends Drawable {
             return;
         }
         mShadowSize = shadowSize;
-        mBlurRadius = -1f;
-        mBlurMaskFilter = null;
+        invalidateShadowCache();
         invalidateSelf();
     }
 
@@ -104,6 +118,7 @@ class RoundRectDrawable extends Drawable {
             return;
         }
         mCompatShadowColor = color;
+        invalidateShadowCache();
         invalidateSelf();
     }
 
@@ -114,6 +129,10 @@ class RoundRectDrawable extends Drawable {
 
     boolean usesCompatShadow() {
         return mCompatShadowColor != null && mShadowSize > 0f;
+    }
+
+    boolean isUniformRadius() {
+        return mUniformRadius;
     }
 
     @NonNull
@@ -133,36 +152,115 @@ class RoundRectDrawable extends Drawable {
             clearColorFilter = false;
         }
 
-        // API < 28 colored shadow: BlurMaskFilter.OUTER gives an even halo.
-        // Avoid Paint#setShadowLayer — on API 26 it still forms a heavy bottom band.
         if (usesCompatShadow()) {
-            final float blur = Math.max(mShadowSize * 0.75f, 1f);
-            if (mBlurMaskFilter == null || mBlurRadius != blur) {
-                mBlurRadius = blur;
-                mBlurMaskFilter = new BlurMaskFilter(blur, BlurMaskFilter.Blur.NORMAL);
+            Bitmap shadow = getShadowBitmap();
+            if (shadow != null) {
+                final Rect bounds = getBounds();
+                canvas.drawBitmap(shadow, bounds.left, bounds.top, null);
             }
-            mShadowPaint.setMaskFilter(mBlurMaskFilter);
-            mShadowPaint.setColor(softenShadowColor(mCompatShadowColor.getColorForState(
-                    getState(), mCompatShadowColor.getDefaultColor())));
-            drawShape(canvas, mShadowPaint);
-            mShadowPaint.setMaskFilter(null);
         }
 
-        paint.clearShadowLayer();
-        drawShape(canvas, paint);
-
-        if (clearColorFilter) {
-            paint.setColorFilter(null);
-        }
-    }
-
-    private void drawShape(Canvas canvas, Paint paint) {
         if (mUniformRadius) {
             canvas.drawRoundRect(mBoundsF, mRadius, mRadius, paint);
         } else {
             buildPath();
             canvas.drawPath(mPath, paint);
         }
+
+        if (clearColorFilter) {
+            paint.setColorFilter(null);
+        }
+    }
+
+    /**
+     * 在软件 Canvas 上生成阴影 Bitmap。
+     * 用 {@link BlurMaskFilter.Blur#OUTER} 只画外侧光晕，避免 setShadowLayer+DST_OUT
+     * 抗锯齿对不齐留下灰色描边（彩色阴影在深色背景下尤其明显）。
+     */
+    @Nullable
+    private Bitmap getShadowBitmap() {
+        final Rect bounds = getBounds();
+        final int w = bounds.width();
+        final int h = bounds.height();
+        if (w <= 0 || h <= 0) {
+            return null;
+        }
+        final int shadowColor = softenShadowColor(mCompatShadowColor.getColorForState(
+                getState(), mCompatShadowColor.getDefaultColor()));
+        final int key = shadowCacheKey(w, h, shadowColor);
+        if (mShadowBitmap != null && mShadowCacheValid(key, w, h)) {
+            return mShadowBitmap;
+        }
+        invalidateShadowCache();
+        Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas soft = new Canvas(bitmap);
+
+        final float blur = Math.max(mShadowSize * 0.55f, 2f);
+        if (mOuterBlur == null || mCachedBlur != blur) {
+            mCachedBlur = blur;
+            mOuterBlur = new BlurMaskFilter(blur, BlurMaskFilter.Blur.OUTER);
+        }
+        final float ox = -bounds.left;
+        final float oy = -bounds.top;
+        final RectF local = new RectF(mBoundsF);
+        local.offset(ox, oy);
+
+        mShadowPaint.setMaskFilter(mOuterBlur);
+        mShadowPaint.setColor(shadowColor);
+        mShadowPaint.clearShadowLayer();
+        if (mUniformRadius) {
+            soft.drawRoundRect(local, mRadius, mRadius, mShadowPaint);
+        } else {
+            mShadowPath.reset();
+            float[] clamped = new float[8];
+            final float maxX = Math.max(0f, local.width() / 2f);
+            final float maxY = Math.max(0f, local.height() / 2f);
+            for (int i = 0; i < 8; i += 2) {
+                clamped[i] = Math.min(Math.max(0f, mRadii[i]), maxX);
+                clamped[i + 1] = Math.min(Math.max(0f, mRadii[i + 1]), maxY);
+            }
+            mShadowPath.addRoundRect(local, clamped, Path.Direction.CW);
+            soft.drawPath(mShadowPath, mShadowPaint);
+        }
+        mShadowPaint.setMaskFilter(null);
+
+        mShadowBitmap = bitmap;
+        mShadowBitmapKey = key;
+        return bitmap;
+    }
+
+    private int shadowCacheKey(int w, int h, int shadowColor) {
+        int result = w;
+        result = 31 * result + h;
+        result = 31 * result + Float.floatToIntBits(mShadowSize);
+        result = 31 * result + Float.floatToIntBits(mRadius);
+        result = 31 * result + shadowColor;
+        result = 31 * result + (mUniformRadius ? 1 : 0);
+        for (float r : mRadii) {
+            result = 31 * result + Float.floatToIntBits(r);
+        }
+        result = 31 * result + Float.floatToIntBits(mBoundsF.left);
+        result = 31 * result + Float.floatToIntBits(mBoundsF.top);
+        result = 31 * result + Float.floatToIntBits(mBoundsF.right);
+        result = 31 * result + Float.floatToIntBits(mBoundsF.bottom);
+        return result;
+    }
+
+    private boolean mShadowCacheValid(int key, int w, int h) {
+        return mShadowBitmapKey == key
+                && mShadowBitmap.getWidth() == w
+                && mShadowBitmap.getHeight() == h
+                && !mShadowBitmap.isRecycled();
+    }
+
+    private void invalidateShadowCache() {
+        if (mShadowBitmap != null) {
+            mShadowBitmap.recycle();
+            mShadowBitmap = null;
+        }
+        mShadowBitmapKey = 0;
+        mCachedBlur = -1f;
+        mOuterBlur = null;
     }
 
     private void buildPath() {
@@ -187,10 +285,8 @@ class RoundRectDrawable extends Drawable {
         mBoundsF.set(bounds.left, bounds.top, bounds.right, bounds.bottom);
         mBoundsI.set(bounds);
         if (mInsetForPadding) {
-            final float inset;
             if (mCompatShadowColor != null) {
-                // Symmetric inset so the even glow is not clipped unevenly.
-                inset = Math.max(mPadding, mShadowSize) * SHADOW_MULTIPLIER;
+                float inset = Math.max(mPadding, mShadowSize) * SHADOW_MULTIPLIER;
                 int pad = (int) Math.ceil(inset);
                 mBoundsI.inset(pad, pad);
             } else {
@@ -203,6 +299,7 @@ class RoundRectDrawable extends Drawable {
             }
             mBoundsF.set(mBoundsI);
         }
+        invalidateShadowCache();
     }
 
     @Override
@@ -340,6 +437,9 @@ class RoundRectDrawable extends Drawable {
             mPaint.setColor(newColor);
         }
         boolean shadowStateful = mCompatShadowColor != null && mCompatShadowColor.isStateful();
+        if (shadowStateful) {
+            invalidateShadowCache();
+        }
         if (mTint != null && mTintMode != null) {
             mTintFilter = createTintFilter(mTint, mTintMode);
             return true;
@@ -363,14 +463,13 @@ class RoundRectDrawable extends Drawable {
         return new PorterDuffColorFilter(color, tintMode);
     }
 
-    /**
-     * Fully opaque colors look like a solid slab after blur. Keep explicit alpha as-is.
-     */
     private static int softenShadowColor(int color) {
-        if (Color.alpha(color) < 255) {
-            return color;
+        int alpha = Color.alpha(color);
+        if (alpha >= 255) {
+            alpha = SOFT_OPAQUE_SHADOW_ALPHA;
+        } else {
+            alpha = Math.max(1, Math.round(alpha * TRANSLUCENT_ALPHA_SCALE));
         }
-        return Color.argb(OPAQUE_SHADOW_ALPHA, Color.red(color), Color.green(color),
-                Color.blue(color));
+        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
     }
 }

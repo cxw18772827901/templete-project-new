@@ -9,9 +9,17 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+/**
+ * API 21+：
+ * <ul>
+ *   <li>API 28+：系统 elevation + 可选 outline 色</li>
+ *   <li>API 21–27：默认淡色软阴影（Bitmap 缓存，View 保持硬件加速，适合列表）</li>
+ * </ul>
+ */
 @RequiresApi(21)
 class RoundCardViewApi21Impl implements RoundCardViewImpl {
-    private static final int DEFAULT_OUTLINE_SHADOW_COLOR = Color.BLACK;
+    private static final ColorStateList DEFAULT_SOFT_SHADOW =
+            ColorStateList.valueOf(Color.BLACK);
 
     @Override
     public void initialize(RoundCardViewDelegate cardView, Context context,
@@ -19,9 +27,7 @@ class RoundCardViewApi21Impl implements RoundCardViewImpl {
         final RoundRectDrawable background = new RoundRectDrawable(backgroundColor, radius);
         background.setShadowSize(elevation);
         cardView.setCardBackground(background);
-        View view = cardView.getCardView();
-        view.setClipToOutline(true);
-        view.setElevation(elevation);
+        applyShadowMode(cardView);
         setMaxElevation(cardView, maxElevation);
     }
 
@@ -80,24 +86,13 @@ class RoundCardViewApi21Impl implements RoundCardViewImpl {
 
     @Override
     public void setElevation(RoundCardViewDelegate cardView, float elevation) {
-        RoundRectDrawable background = getCardBackground(cardView);
-        background.setShadowSize(elevation);
-        View view = cardView.getCardView();
-        if (background.getCompatShadowColor() != null) {
-            view.setElevation(0f);
-            setMaxElevation(cardView, Math.max(getMaxElevation(cardView), elevation));
-        } else {
-            view.setElevation(elevation);
-        }
+        getCardBackground(cardView).setShadowSize(elevation);
+        applyShadowMode(cardView);
     }
 
     @Override
     public float getElevation(RoundCardViewDelegate cardView) {
-        RoundRectDrawable background = getCardBackground(cardView);
-        if (background.getCompatShadowColor() != null) {
-            return background.getShadowSize();
-        }
-        return cardView.getCardView().getElevation();
+        return getCardBackground(cardView).getShadowSize();
     }
 
     @Override
@@ -107,8 +102,7 @@ class RoundCardViewApi21Impl implements RoundCardViewImpl {
             return;
         }
         RoundRectDrawable background = getCardBackground(cardView);
-        if (background.getCompatShadowColor() != null) {
-            // Match the even software glow: equal padding on all sides.
+        if (useCompatSoftShadow()) {
             float size = Math.max(getMaxElevation(cardView), background.getShadowSize());
             int pad = (int) Math.ceil(size * 1.5f);
             cardView.setShadowPadding(pad, pad, pad, pad);
@@ -145,40 +139,44 @@ class RoundCardViewApi21Impl implements RoundCardViewImpl {
 
     @Override
     public void setShadowColor(RoundCardViewDelegate cardView, @Nullable ColorStateList color) {
+        applyShadowMode(cardView);
+    }
+
+    private void applyShadowMode(RoundCardViewDelegate cardView) {
         final View view = cardView.getCardView();
         final RoundRectDrawable background = getCardBackground(cardView);
+        final float logicalElevation = background.getShadowSize();
+        final ColorStateList shadowColor = cardView.getShadowColor();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            background.setCompatShadowColor(null);
-            view.setLayerType(View.LAYER_TYPE_NONE, null);
-            view.setClipToOutline(true);
-            view.setElevation(background.getShadowSize());
-            final int shadowColor = color == null
-                    ? DEFAULT_OUTLINE_SHADOW_COLOR
-                    : color.getColorForState(view.getDrawableState(), color.getDefaultColor());
-            view.setOutlineAmbientShadowColor(shadowColor);
-            view.setOutlineSpotShadowColor(shadowColor);
-            setMaxElevation(cardView, getMaxElevation(cardView));
-            return;
-        }
+        // 始终保持硬件加速：软阴影在 Drawable 内用 Bitmap 缓存，不 setLayerType(SOFTWARE)
+        view.setLayerType(View.LAYER_TYPE_NONE, null);
 
-        background.setCompatShadowColor(color);
-        if (color != null) {
+        if (useCompatSoftShadow()) {
+            ColorStateList soft = shadowColor != null ? shadowColor : DEFAULT_SOFT_SHADOW;
+            background.setCompatShadowColor(soft);
             view.setElevation(0f);
             view.setClipToOutline(false);
-            view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         } else {
-            view.setElevation(background.getShadowSize());
+            background.setCompatShadowColor(null);
             view.setClipToOutline(true);
-            view.setLayerType(View.LAYER_TYPE_NONE, null);
+            view.setElevation(logicalElevation);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && shadowColor != null) {
+                final int outlineColor = shadowColor.getColorForState(view.getDrawableState(),
+                        shadowColor.getDefaultColor());
+                view.setOutlineAmbientShadowColor(outlineColor);
+                view.setOutlineSpotShadowColor(outlineColor);
+            }
         }
-        setMaxElevation(cardView, getMaxElevation(cardView));
+        setMaxElevation(cardView, Math.max(getMaxElevation(cardView), logicalElevation));
         invalidateOutline(cardView);
     }
 
+    private static boolean useCompatSoftShadow() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.P;
+    }
+
     private boolean needsShadowPadding(RoundCardViewDelegate cardView) {
-        return cardView.getUseCompatPadding()
-                || getCardBackground(cardView).getCompatShadowColor() != null;
+        return cardView.getUseCompatPadding() || useCompatSoftShadow();
     }
 
     private void invalidateOutline(RoundCardViewDelegate cardView) {
