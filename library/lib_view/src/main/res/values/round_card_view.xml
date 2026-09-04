@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="rcv_dark_background">#FF424242</color>
+    <color name="rcv_light_background">#FFFFFFFF</color>
+    <color name="rcv_shadow_end_color">#03000000</color>
+    <color name="rcv_shadow_start_color">#37000000</color>
+    <dimen name="rcv_compat_inset_shadow">1dp</dimen>
+    <dimen name="rcv_default_elevation">2dp</dimen>
+    <dimen name="rcv_default_radius">2dp</dimen>
+
+    <declare-styleable name="RoundCardView">
+        <attr name="rcvBackgroundColor" format="color"/>
+        <attr name="rcvCornerRadius" format="dimension"/>
+        <attr name="rcvTopLeftRadius" format="dimension"/>
+        <attr name="rcvTopRightRadius" format="dimension"/>
+        <attr name="rcvBottomRightRadius" format="dimension"/>
+        <attr name="rcvBottomLeftRadius" format="dimension"/>
+        <attr name="rcvElevation" format="dimension"/>
+        <attr name="rcvMaxElevation" format="dimension"/>
+        <attr name="rcvShadowColor" format="color"/>
+        <attr name="rcvUseCompatPadding" format="boolean"/>
+        <attr name="rcvPreventCornerOverlap" format="boolean"/>
+        <attr name="rcvContentPadding" format="dimension"/>
+        <attr name="rcvContentPaddingLeft" format="dimension"/>
+        <attr name="rcvContentPaddingTop" format="dimension"/>
+        <attr name="rcvContentPaddingRight" format="dimension"/>
+        <attr name="rcvContentPaddingBottom" format="dimension"/>
+        <attr name="android:minWidth"/>
+        <attr name="android:minHeight"/>
+    </declare-styleable>
+</resources>
